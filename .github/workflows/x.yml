@@ -3,7 +3,6 @@ name: CI Runner
 on:
   workflow_dispatch:
 
-# 赋予自动触发工作流的权限
 permissions:
   actions: write
   contents: read
@@ -16,7 +15,7 @@ jobs:
         uses: tailscale/github-action@v3
         with:
           authkey: ${{ secrets.TAILSCALE_AUTHKEY }}
-          args: --advertise-exit-node --hostname=gh-node
+          args: --advertise-exit-node --hostname=gh-node --advertise-tags=tag:ci
 
       - name: Setup Network
         run: |
@@ -31,11 +30,8 @@ jobs:
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          # 挂起运行 5 小时（留足安全缓冲，绝不触碰 6 小时硬顶）
           sleep 18000
           
-          # 显式指定仓库名 -R TFORMYYYX/mm，无 .git 目录下依然能成功触发续杯
           gh workflow run x.yml -R TFORMYYYX/mm || true
           
-          # 双机重叠保持 5 分钟，等待新节点上线交接
           sleep 300
