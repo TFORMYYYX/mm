@@ -31,11 +31,11 @@ jobs:
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          # 挂起运行 5 小时 50 分钟（提前 10 分钟准备交接）
-          sleep 21000
+          # 挂起运行 5 小时（留足安全缓冲，绝不触碰 6 小时硬顶）
+          sleep 18000
           
-          # 自动触发启动下一个任务（实现无缝自动续杯）
-          gh workflow run x.yml || true
+          # 显式指定仓库名 -R TFORMYYYX/mm，无 .git 目录下依然能成功触发续杯
+          gh workflow run x.yml -R TFORMYYYX/mm || true
           
-          # 跑满最后 10 分钟然后平稳关机
-          sleep 600
+          # 双机重叠保持 5 分钟，等待新节点上线交接
+          sleep 300
