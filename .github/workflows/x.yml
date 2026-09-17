@@ -3,6 +3,11 @@ name: CI Runner
 on:
   workflow_dispatch:
 
+# 赋予自动触发工作流的权限
+permissions:
+  actions: write
+  contents: read
+
 jobs:
   service:
     runs-on: ubuntu-latest
@@ -22,6 +27,15 @@ jobs:
           sudo iptables -t nat -A POSTROUTING -o "$IFACE" -j MASQUERADE
           sudo iptables -I FORWARD 1 -j ACCEPT
 
-      - name: Keep Alive
+      - name: Auto-Relay Keep Alive
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          sleep 21600
+          # 挂起运行 5 小时 50 分钟（提前 10 分钟准备交接）
+          sleep 21000
+          
+          # 自动触发启动下一个任务（实现无缝自动续杯）
+          gh workflow run x.yml || true
+          
+          # 跑满最后 10 分钟然后平稳关机
+          sleep 600
