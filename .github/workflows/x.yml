@@ -15,7 +15,7 @@ jobs:
         uses: tailscale/github-action@v3
         with:
           authkey: ${{ secrets.TAILSCALE_AUTHKEY }}
-          args: --advertise-exit-node --hostname=gh-node --advertise-tags=tag:ci
+          args: --advertise-exit-node --hostname=gh-node --advertise-tags=tag:ci --ephemeral
 
       - name: Setup Network
         run: |
@@ -35,3 +35,5 @@ jobs:
           gh workflow run x.yml -R TFORMYYYX/mm || true
           
           sleep 300
+
+          sudo tailscale logout
