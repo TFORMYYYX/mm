@@ -15,6 +15,7 @@ jobs:
         uses: tailscale/github-action@v3
         with:
           authkey: ${{ secrets.TAILSCALE_AUTHKEY }}
+          version: latest
           args: --advertise-exit-node --hostname=gh-node --advertise-tags=tag:ci
 
       - name: Setup Network
