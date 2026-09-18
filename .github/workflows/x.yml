@@ -16,7 +16,8 @@ jobs:
         with:
           authkey: ${{ secrets.TAILSCALE_AUTHKEY }}
           version: latest
-          args: --advertise-exit-node --hostname=gh-node --advertise-tags=tag:ci
+          hostname: gh-node
+          args: --advertise-exit-node --advertise-tags=tag:ci
 
       - name: Setup Network
         run: |
