@@ -15,7 +15,6 @@ jobs:
         uses: tailscale/github-action@v3
         with:
           authkey: ${{ secrets.TAILSCALE_AUTHKEY }}
-          version: latest
           hostname: gh-node
           args: --advertise-exit-node --advertise-tags=tag:ci
 
