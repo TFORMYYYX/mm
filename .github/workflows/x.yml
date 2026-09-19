@@ -33,8 +33,9 @@ jobs:
         run: |
           sleep 18000
           
-          gh workflow run x.yml -R TFORMYYYX/mm || true
           
           sleep 300
 
           sudo tailscale logout
+
+          gh workflow run x.yml -R TFORMYYYX/mm || true
